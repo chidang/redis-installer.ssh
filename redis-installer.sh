@@ -1,8 +1,8 @@
 #!/bin/bash
 ###############################################
 # To use: 
-# chmod +x install-redis.sh
-# ./install-redis.sh
+# chmod +x redis-installer.sh
+# ./redis-installer.sh
 ###############################################
 version=4.0.8
 
@@ -26,7 +26,7 @@ echo "*****************************************"
 echo " 3. Create Directories and Copy Redis Files"
 echo "*****************************************"
 sudo mkdir /etc/redis /var/lib/redis
-sudo cp src/redis-server src/redis-cli /usr/local/bin
+sudo cp src/redis-server src/redis-cli /usr/bin
 echo "*****************************************"
 echo " 4. Configure Redis.Conf"
 echo "*****************************************"
@@ -37,7 +37,7 @@ echo " 3: ... dir /var/lib/redis"
 echo " 4: ... loglevel notice"
 echo " 5: ... logfile /var/log/redis.log"
 echo "*****************************************"
-sudo sed -e "s/^daemonize no$/daemonize yes/" -e "s/^# bind 127.0.0.1$/bind 127.0.0.1/" -e "s/^dir \.\//dir \/var\/lib\/redis\//" -e "s/^loglevel verbose$/loglevel notice/" -e "s/^logfile stdout$/logfile \/var\/log\/redis.log/" redis.conf | sudo tee /etc/redis/redis.conf
+sudo sed -e "s/^daemonize no$/daemonize yes/" -e "s/^# bind 127.0.0.1$/bind 127.0.0.1/" -e "s/^dir \.\//dir \/var\/lib\/redis\//" -e "s/^loglevel verbose$/loglevel notice/" -e "s/^logfile stdout$/logfile \/var\/log\/redis.log/" redis.conf | sudo tee /etc/redis.conf
 echo "*****************************************"
 echo " 5. Download init Script"
 echo "*****************************************"
@@ -45,8 +45,8 @@ sudo wget https://raw.github.com/saxenap/install-redis-amazon-linux-centos/maste
 echo "*****************************************"
 echo " 6. Move and Configure Redis-Server"
 echo "*****************************************"
-sudo mv redis-server /etc/init.d
-sudo chmod 755 /etc/init.d/redis-server
+sudo mv redis-server /usr/bin
+sudo chmod 755 /usr/bin/redis-server
 echo "*****************************************"
 echo " 7. Auto-Enable Redis-Server"
 echo "*****************************************"
@@ -59,7 +59,7 @@ sudo service redis-server start
 echo "*****************************************"
 echo " Complete!"
 echo " You can test your redis installation using the redis console:"
-echo "   $ /usr/local/redis-$version/src/redis-cli"
+echo "   $ /usr/bin/redis-cli"
 echo "   redis> set foo bar"
 echo "   OK"
 echo "   redis> get foo"
